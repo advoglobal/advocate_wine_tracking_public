@@ -61,7 +61,7 @@
 			let modal_cart = document.getElementById('v65-modalCartDropdown');
 			if (modal_cart && modal_cart.style.display == 'block') {
 				window.clearInterval(try_add_coupon_interval);
-				window.setTimeout(() => {
+				window.setTimeout(async () => {
 					let result = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
 				}, 1500)
             }
