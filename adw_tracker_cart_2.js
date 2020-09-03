@@ -53,7 +53,7 @@
 	if (query_sku) { set_cookie('sku', query_sku, 1, cookie_context) }
 	
 	//redirect, if necessary
-	if (cookie_context.sku) {
+	if (query_adw_product) {
 		window.location.href = `./index.cfm?method=products.ProductDrilldown&productid=${query_adw_product}`;
 	}
 
