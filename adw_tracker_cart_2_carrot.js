@@ -1,4 +1,3 @@
-console.log('carrot test 1');
 (async () => {
 	let this_script = document.getElementById('advocate-tracker');
 	const domain_api = this_script.dataset.is_staging ? 'staging-api.advocate.wine' : 'api.advocate.wine';
@@ -13,14 +12,14 @@ console.log('carrot test 1');
 		sku: undefined
 	};
 
-	let set_cookie = function (cookie_name, cookie_value, cookie_duration, cookie_context) {
+	let set_cookie = function(cookie_name, cookie_value, cookie_duration, cookie_context) {
 		let expiry_date = new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * cookie_duration));
 		let expires_text = "expires=" + expiry_date.toUTCString();
 		document.cookie = cookie_name + "=" + cookie_value + ";" + expires_text + ";path=/";
 		cookie_context[cookie_name] = cookie_duration > 0 ? cookie_value : undefined;
 	}
 
-	let get_cookie = function (cookie_name) {
+	let get_cookie = function(cookie_name) {
 		let name = cookie_name + "=";
 		let decoded_cookie = decodeURIComponent(document.cookie);
 		let cookie_fragments = decoded_cookie.split(';');
@@ -52,9 +51,46 @@ console.log('carrot test 1');
 	if (query_adw_promo) { set_cookie('adw_promo', query_adw_promo, 1, cookie_context) }
 	if (query_referer_id) { set_cookie('adw_referer_id', query_referer_id, 1, cookie_context) }
 	if (query_sku) { set_cookie('sku', query_sku, 1, cookie_context) }
+	
+	//redirect, if necessary
+	if (query_adw_product) {
+		window.location.href = `./index.cfm?method=products.ProductDrilldown&productid=${query_adw_product}`;
+	}
 
 	//set up use of the advocate.wine coupon
-	if (cookie_context.adw_promo) {
-		let result = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
+	if (cookie_context.adw_promo && cookie_context.sku) {
+		let result_cart = await ky.get(`https://${window.location.hostname}?method=cart.addToCart&productSKU=${encodeURIComponent(cookie_context.sku)}`);
+		let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
+		/*let try_add_coupon_interval = window.setInterval(async () => {
+			let modal_cart = document.getElementById('v65-modalCartDropdown');
+			if (modal_cart && modal_cart.style.display == 'block') {
+				window.clearInterval(try_add_coupon_interval);
+				window.setTimeout(async () => {
+					let result = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
+				}, 1500)
+            }
+		}, 400);*/
 	}
+
+	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
+	if (query_order_id && cookie_context.adw_referer_id) {
+		let result = await ky.post(`https://${domain_api}/orders/winery/${tenant}/order/${query_order_id}/user/${cookie_context.adw_referer_id}`, {
+			headers: {
+				'Access-Control-Allow-Origin': domain_api,
+			},
+			json: {
+				userId: cookie_context.adw_referer_id,
+				wineId: cookie_context.adw_product,
+				OrderId: query_order_id
+			}
+		});
+
+		//if we successfully made an attribution, reset all the referral datas
+		if (result.ok) {
+			set_cookie('adw_hidesrc', '', -1, cookie_context);
+			set_cookie('adw_product', '', -1, cookie_context);
+			set_cookie('adw_promo', '', -1, cookie_context);
+			set_cookie('adw_referer_id', '', -1, cookie_context);
+        }
+    }
 })();
