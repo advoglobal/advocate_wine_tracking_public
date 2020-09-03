@@ -63,6 +63,9 @@
 		const form_data = new FormData();
 		form_data.append('productSKU', cookie_context.sku);
 		form_data.append('Quantity', 1);
+
+		set_cookie('adw_processed_cart', true, .1, cookie_context);
+
 		let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
 			body: form_data
 		});
@@ -70,7 +73,6 @@
 		if (result_cart.ok) {
 			vin65.cart.showCart();
 			let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
-			set_cookie('adw_processed_cart', true, 1, cookie_context);
 		}
 	}
 
