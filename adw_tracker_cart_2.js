@@ -59,8 +59,16 @@
 
 	//set up use of the advocate.wine coupon
 	if (cookie_context.adw_promo && cookie_context.sku) {
-		let result_cart = await ky.get(`https://${window.location.hostname}?method=cart.addToCart&productSKU=${encodeURIComponent(cookie_context.sku)}`);
+		console.log('form 1')
+		const form_data = new FormData();
+		form_data.append('productSKU', cookie_context.sku);
+		form_data.append('Quantity', 1);
+		let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
+			body: form_data
+		});
+		console.log('form 2')
 		let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
+		console.log('form 3')
 		/*let try_add_coupon_interval = window.setInterval(async () => {
 			let modal_cart = document.getElementById('v65-modalCartDropdown');
 			if (modal_cart && modal_cart.style.display == 'block') {
