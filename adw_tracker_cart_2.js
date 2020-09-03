@@ -9,7 +9,8 @@
 		adw_product: undefined,
 		adw_promo: undefined,
 		adw_referer_id: undefined,
-		sku: undefined
+		sku: undefined,
+		adw_processed_cart: undefined
 	};
 
 	let set_cookie = function(cookie_name, cookie_value, cookie_duration, cookie_context) {
@@ -58,26 +59,19 @@
 	}
 
 	//set up use of the advocate.wine coupon
-	if (cookie_context.adw_promo && cookie_context.sku) {
-		console.log('form 1')
+	if (cookie_context.adw_promo && cookie_context.sku && !cookie_context.adw_processed_cart) {
 		const form_data = new FormData();
 		form_data.append('productSKU', cookie_context.sku);
 		form_data.append('Quantity', 1);
 		let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
 			body: form_data
 		});
-		console.log('form 2')
-		let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
-		console.log('form 3')
-		/*let try_add_coupon_interval = window.setInterval(async () => {
-			let modal_cart = document.getElementById('v65-modalCartDropdown');
-			if (modal_cart && modal_cart.style.display == 'block') {
-				window.clearInterval(try_add_coupon_interval);
-				window.setTimeout(async () => {
-					let result = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
-				}, 1500)
-            }
-		}, 400);*/
+
+		if (result_cart.ok) {
+			vin65.cart.showCart();
+			let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
+			set_cookie('adw_processed_cart', true, 1, cookie_context);
+		}
 	}
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
@@ -99,6 +93,8 @@
 			set_cookie('adw_product', '', -1, cookie_context);
 			set_cookie('adw_promo', '', -1, cookie_context);
 			set_cookie('adw_referer_id', '', -1, cookie_context);
+			set_cookie('sku', '', -1, cookie_context);
+			set_cookie('adw_processed_cart', '', -1, cookie_context);
         }
     }
 })();
