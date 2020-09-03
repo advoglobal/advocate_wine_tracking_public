@@ -8,7 +8,8 @@
 		adw_hidesrc: undefined,
 		adw_product: undefined,
 		adw_promo: undefined,
-		adw_referer_id: undefined
+		adw_referer_id: undefined,
+		sku: undefined
 	};
 
 	let set_cookie = function(cookie_name, cookie_value, cookie_duration, cookie_context) {
@@ -49,14 +50,17 @@
 	if (query_adw_product) { set_cookie('adw_product', query_adw_product, 1, cookie_context) }
 	if (query_adw_promo) { set_cookie('adw_promo', query_adw_promo, 1, cookie_context) }
 	if (query_referer_id) { set_cookie('adw_referer_id', query_referer_id, 1, cookie_context) }
+	if (query_sku) { set_cookie('sku', query_sku, 1, cookie_context) }
 	
 	//redirect, if necessary
-	if (query_sku) {
+	if (cookie_context.sku) {
 		window.location.href = `./index.cfm?method=products.ProductDrilldown&productid=${query_adw_product}`;
 	}
 
 	//set up use of the advocate.wine coupon
 	if (cookie_context.adw_promo) {
+		/*let result_cart = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.sku}`);
+		let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
 		let try_add_coupon_interval = window.setInterval(async () => {
 			let modal_cart = document.getElementById('v65-modalCartDropdown');
 			if (modal_cart && modal_cart.style.display == 'block') {
@@ -65,7 +69,7 @@
 					let result = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
 				}, 1500)
             }
-		}, 400);
+		}, 400);*/
 	}
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
