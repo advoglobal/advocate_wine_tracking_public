@@ -71,9 +71,11 @@
 			});
 		}
 
+		if (cookie_context.adw_processed_cart) {
+			vin65.cart.showCart();
+			let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
 
-		vin65.cart.showCart();
-		let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
+		}
 	}
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
