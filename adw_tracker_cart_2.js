@@ -59,24 +59,22 @@
 	}
 
 	//set up use of the advocate.wine coupon
-	if (cookie_context.adw_promo && cookie_context.sku && !cookie_context.adw_processed_cart) {
+	if (cookie_context.adw_promo && cookie_context.sku) {
 		const form_data = new FormData();
 		form_data.append('productSKU', cookie_context.sku);
 		form_data.append('Quantity', 1);
 
-		let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
-			body: form_data
-		});
-
-		if (result_cart.ok) {
+		if (!cookie_context.adw_processed_cart) {
 			set_cookie('adw_processed_cart', true, .1, cookie_context);
+			let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
+				body: form_data
+			});
 		}
-	}
 
-	if (cookie_context.adw_processed_cart) {
+
 		vin65.cart.showCart();
 		let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
-    }
+	}
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
 	if (query_order_id && cookie_context.adw_referer_id) {
