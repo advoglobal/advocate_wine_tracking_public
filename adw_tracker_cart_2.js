@@ -64,17 +64,19 @@
 		form_data.append('productSKU', cookie_context.sku);
 		form_data.append('Quantity', 1);
 
-		set_cookie('adw_processed_cart', true, .1, cookie_context);
-
 		let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
 			body: form_data
 		});
 
 		if (result_cart.ok) {
-			vin65.cart.showCart();
-			let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
+			set_cookie('adw_processed_cart', true, .1, cookie_context);
 		}
 	}
+
+	if (cookie_context.adw_processed_cart) {
+		vin65.cart.showCart();
+		let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
+    }
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
 	if (query_order_id && cookie_context.adw_referer_id) {
