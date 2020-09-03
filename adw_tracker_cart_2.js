@@ -58,10 +58,10 @@
 	}
 
 	//set up use of the advocate.wine coupon
-	if (cookie_context.adw_promo) {
-		/*let result_cart = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.sku}`);
+	if (cookie_context.adw_promo && cookie_context.sku) {
+		let result_cart = await ky.get(`https://${window.location.hostname}?method=cart.addToCart&productSKU=${encodeURIComponent(cookie_context.sku)}`);
 		let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
-		let try_add_coupon_interval = window.setInterval(async () => {
+		/*let try_add_coupon_interval = window.setInterval(async () => {
 			let modal_cart = document.getElementById('v65-modalCartDropdown');
 			if (modal_cart && modal_cart.style.display == 'block') {
 				window.clearInterval(try_add_coupon_interval);
