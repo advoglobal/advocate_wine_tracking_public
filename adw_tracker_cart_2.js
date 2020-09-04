@@ -59,7 +59,7 @@
 	}
 
 	//set up use of the advocate.wine coupon
-	if (cookie_context.adw_promo && cookie_context.sku) {
+	if (!query_order_id && cookie_context.adw_promo && cookie_context.sku) {
 		const form_data = new FormData();
 		form_data.append('productSKU', cookie_context.sku);
 		form_data.append('Quantity', 1);
