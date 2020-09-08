@@ -65,12 +65,21 @@
 		form_data.append('Quantity', 1);
 
 		if (!cookie_context.adw_processed_cart) {
-			set_cookie('adw_processed_cart', true, .1, cookie_context);
-			let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
-				body: form_data
-			});
-			console.log('result cart:');
-			console.log(result_cart);
+			let tries = 0;
+			while (tries <= 3) {
+				let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
+					body: form_data
+				});
+				console.log(`try ${tries}`)
+				console.log(result_cart);
+				if (result.ok) {
+					set_cookie('adw_processed_cart', true, .1, cookie_context);
+					break;
+				}
+				tries++;
+            }
+		
+			
 		}
 
 		if (cookie_context.adw_processed_cart) {
