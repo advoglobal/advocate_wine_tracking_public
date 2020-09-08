@@ -13,14 +13,14 @@
 		adw_processed_cart: undefined
 	};
 
-	let set_cookie = function(cookie_name, cookie_value, cookie_duration, cookie_context) {
+	let set_cookie = function (cookie_name, cookie_value, cookie_duration, cookie_context) {
 		let expiry_date = new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * cookie_duration));
 		let expires_text = "expires=" + expiry_date.toUTCString();
 		document.cookie = cookie_name + "=" + cookie_value + ";" + expires_text + ";path=/";
 		cookie_context[cookie_name] = cookie_duration > 0 ? cookie_value : undefined;
 	}
 
-	let get_cookie = function(cookie_name) {
+	let get_cookie = function (cookie_name) {
 		let name = cookie_name + "=";
 		let decoded_cookie = decodeURIComponent(document.cookie);
 		let cookie_fragments = decoded_cookie.split(';');
@@ -52,7 +52,7 @@
 	if (query_adw_promo) { set_cookie('adw_promo', query_adw_promo, 1, cookie_context) }
 	if (query_referer_id) { set_cookie('adw_referer_id', query_referer_id, 1, cookie_context) }
 	if (query_sku) { set_cookie('sku', query_sku, 1, cookie_context) }
-	
+
 	//redirect, if necessary
 	if (query_adw_product) {
 		window.location.href = `./index.cfm?method=products.ProductDrilldown&productid=${query_adw_product}`;
@@ -67,7 +67,7 @@
 		if (!cookie_context.adw_processed_cart) {
 			let tries = 0;
 			while (tries <= 3) {
-				let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
+				let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart&timeStamp=${new Date().getTime()}`, {
 					body: form_data
 				});
 				console.log(`try ${tries}`)
@@ -77,9 +77,7 @@
 					break;
 				}
 				tries++;
-            }
-		
-			
+			}
 		}
 
 		if (cookie_context.adw_processed_cart) {
@@ -110,6 +108,6 @@
 			set_cookie('adw_referer_id', '', -1, cookie_context);
 			set_cookie('sku', '', -1, cookie_context);
 			set_cookie('adw_processed_cart', '', -1, cookie_context);
-        }
-    }
+		}
+	}
 })();
