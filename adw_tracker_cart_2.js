@@ -72,7 +72,7 @@
 				});
 				console.log(`try ${tries}`)
 				console.log(result_cart);
-				if (result.ok) {
+				if (result_cart.ok) {
 					set_cookie('adw_processed_cart', true, .1, cookie_context);
 					break;
 				}
