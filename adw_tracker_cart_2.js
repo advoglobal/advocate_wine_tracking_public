@@ -69,6 +69,7 @@
 			let result_cart = await ky.post(`https://${window.location.hostname}/index.cfm?method=cartV2.addToCart`, {
 				body: form_data
 			});
+			console.log('result cart:');
 			console.log(result_cart);
 		}
 
