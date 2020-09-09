@@ -81,9 +81,9 @@
 		}
 
 		if (cookie_context.adw_processed_cart) {
-			vin65.cart.showCart();
+			//vin65.cart.showCart();
+			document.querySelector('.adw-tracker-popup').style.display = 'block'; 
 			let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
-
 		}
 	}
 
