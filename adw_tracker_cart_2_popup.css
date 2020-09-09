@@ -1,0 +1,38 @@
+.adw-tracker-popup {
+    position: fixed;
+    bottom: 0px;
+    left: 10vw;
+    width: 80vw;
+    height: 10vh;
+    font-family: co-text,sans-serif;
+    border-radius: 16px;
+    display: none;
+    background-color: #ffffff;
+}
+
+.adw-tracker-title {
+    font-weight: 400;
+    font-size: 26px;
+    color: #0040bf;
+}
+
+.adw-tracker-body {
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.adw-button-link {
+    min-width: 150px;
+    padding: 12px 40px;
+    border-radius: 8px;
+    color: white;
+    background-color: #f20557;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.adw-link {
+    color: #0040bf;
+    font-size: 12px;
+    text-decoration: underline;
+}
