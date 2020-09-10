@@ -56,6 +56,7 @@
 	//redirect, if necessary
 	if (query_adw_product) {
 		window.location.href = `./index.cfm?method=products.ProductDrilldown&productid=${query_adw_product}`;
+		return;
 	}
 
 	//set up use of the advocate.wine coupon
