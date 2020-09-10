@@ -3,13 +3,13 @@
     bottom: 0px;
     left: 10vw;
     width: 80vw;
-    height: 10vh;
     font-family: co-text,sans-serif;
     border-radius: 16px;
     display: none;
     background-color: #ffffff;
     text-align: center;
     padding: 40px 10px;
+    border: 1px solid #ea0554;
 }
 
 .adw-tracker-title {
