@@ -85,8 +85,8 @@
 		if (cookie_context.adw_processed_cart) {
 			//vin65.cart.showCart();
 			document.querySelector('.adw-tracker-popup').style.display = 'block';
-			if (document.querySelector('adw-keep-shopping')) {
-				document.querySelector('adw-keep-shopping').href = shop_url;
+			if (document.querySelector('.adw-keep-shopping')) {
+				document.querySelector('.adw-keep-shopping').href = shop_url;
             }
 
 			let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
