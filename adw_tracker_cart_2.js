@@ -2,6 +2,7 @@
 	let this_script = document.getElementById('advocate-tracker');
 	const domain_api = this_script.dataset.is_staging ? 'staging-api.advocate.wine' : 'api.advocate.wine';
 	const tenant = this_script.dataset.advocate_tenant;
+	const shop_url = this_script.dataset.shop_url;
 
 	// set up cookie model
 	let cookie_context = {
@@ -83,7 +84,11 @@
 
 		if (cookie_context.adw_processed_cart) {
 			//vin65.cart.showCart();
-			document.querySelector('.adw-tracker-popup').style.display = 'block'; 
+			document.querySelector('.adw-tracker-popup').style.display = 'block';
+			if (document.querySelector('adw-keep-shopping')) {
+				document.querySelector('adw-keep-shopping').href = shop_url;
+            }
+
 			let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
 		}
 	}
