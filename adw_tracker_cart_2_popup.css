@@ -48,7 +48,7 @@
 }
 
 
-.adw-close-button > button {
+.adw-close-button {
     display: block;
     position: absolute;
     top: 0px;
@@ -59,7 +59,7 @@
 }
 
 
-    .adw-bar > button > img {
+    .adw-close-button > img {
         height: 32px;
         width: 32px;
     }
