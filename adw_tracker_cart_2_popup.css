@@ -8,7 +8,7 @@
     display: none;
     background-color: #ffffff;
     text-align: center;
-    padding: 0px 40px 10px 40px;
+    padding: 10px 40px 10px 40px;
     border: 1px solid #ea0554;
     box-sizing: border-box;
 }
@@ -47,16 +47,12 @@
     text-decoration: underline;
 }
 
-.adw-bar {
-    padding-top: 10px;
-    max-height: 10px;
-    text-align: right;
+
+.adw-close-button > button {
+    display: block;
     position: absolute;
     top: 0px;
-}
-
-.adw-bar > button {
-    height: 10px;
+    right: 0px;
     background-color: none;
     border: none;
     padding: 0px;
