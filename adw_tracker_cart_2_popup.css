@@ -48,8 +48,11 @@
 }
 
 .adw-bar {
+    padding-top: 10px;
     max-height: 10px;
     text-align: right;
+    position: absolute;
+    top: 0px;
 }
 
 .adw-bar > button {
@@ -58,3 +61,9 @@
     border: none;
     padding: 0px;
 }
+
+
+    .adw-bar > button > img {
+        height: 32px;
+        width: 32px;
+    }
