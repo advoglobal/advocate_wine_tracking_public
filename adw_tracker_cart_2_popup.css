@@ -8,13 +8,9 @@
     display: none;
     background-color: #ffffff;
     text-align: center;
-    padding: 10px 40px 26px 40px;
+    padding: 10px 40px 36px 40px;
     border: 1px solid #ea0554;
     box-sizing: border-box;
-}
-
-.adw-additional-margin {
-    margin-top: 35px;
 }
 
 .adw-tracker-title {
@@ -63,3 +59,7 @@
         height: 32px;
         width: 32px;
     }
+
+.adw-additional-margin {
+    margin-top: 35px;
+}
