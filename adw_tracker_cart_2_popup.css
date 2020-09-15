@@ -8,9 +8,13 @@
     display: none;
     background-color: #ffffff;
     text-align: center;
-    padding: 40px 10px;
+    padding: 0px 40px 10px 40px;
     border: 1px solid #ea0554;
     box-sizing: border-box;
+}
+
+.adw-additional-margin {
+    margin-top: 35px;
 }
 
 .adw-tracker-title {
@@ -41,4 +45,16 @@
     color: #0040bf;
     font-size: 12px;
     text-decoration: underline;
+}
+
+.adw-bar {
+    max-height: 10px;
+    text-align: right;
+}
+
+.adw-bar > button {
+    height: 10px;
+    background-color: none;
+    border: none;
+    padding: 0px;
 }
