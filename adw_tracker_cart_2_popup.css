@@ -10,6 +10,7 @@
     text-align: center;
     padding: 40px 10px;
     border: 1px solid #ea0554;
+    box-sizing: border-box;
 }
 
 .adw-tracker-title {
