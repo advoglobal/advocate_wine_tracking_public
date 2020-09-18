@@ -12,7 +12,7 @@
 		adw_referer_id: undefined,
 		sku: undefined,
 		adw_processed_cart: undefined,
-		adw_recently_showed_popup: undefined
+		adw_needs_popup: undefined
 	};
 
 	let set_cookie = function (cookie_name, cookie_value, cookie_duration, cookie_context) {
@@ -57,6 +57,7 @@
 
 	//redirect, if necessary
 	if (query_adw_product) {
+		set_cookie('adw_needs_popup', true, .1, cookie_context);
 		window.location.href = `./index.cfm?method=products.ProductDrilldown&productid=${query_adw_product}`;
 		return;
 	}
@@ -83,11 +84,11 @@
 			}
 		}
 
-		if (cookie_context.adw_processed_cart && !cookie_context.adw_recently_showed_popup) {
+		if (cookie_context.adw_processed_cart && cookie_context.adw_needs_popup) {
 			document.querySelector('.adw-tracker-popup').style.display = 'block';
 			if (document.querySelector('.adw-keep-shopping')) {
 				document.querySelector('.adw-keep-shopping').href = shop_url;
-				set_cookie('adw_recently_showed_popup', true, .1, cookie_context);
+				set_cookie('adw_needs_popup', false, -1, cookie_context);
             }
 
 			let result_coupon = await ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`);
@@ -115,7 +116,7 @@
 			set_cookie('adw_referer_id', '', -1, cookie_context);
 			set_cookie('sku', '', -1, cookie_context);
 			set_cookie('adw_processed_cart', '', -1, cookie_context);
-			set_cookie('adw_recently_showed_popup', '', -1, cookie_context);
+			set_cookie('adw_needs_popup', false, -1, cookie_context);
 		}
 	}
 })();
