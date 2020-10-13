@@ -56,7 +56,7 @@
 	}
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
-	if (query_method.includes('checkout.receipt') && cookie_context.adw_referer_id) {
+	if (query_method && query_method.includes('checkout.receipt') && cookie_context.adw_referer_id) {
 		let order_element = document.querySelector('#mainContent div p a');
 		let order_url = order_element.href;
 		let order_id = new URLSearchParams(order_url).get('orderID');
