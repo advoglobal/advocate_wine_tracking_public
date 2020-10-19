@@ -56,7 +56,7 @@
 		window.location.href = `/index.cfm?method=cart.addToCart&productSKU=${encodeURIComponent(query_sku)}&promoCode=${encodeURIComponent(query_adw_promo)}`;
 	} else if (query_method === 'cart.showCart' && cookie_context.adw_promo && !cookie_context.ship_redirect) {
 		set_cookie('ship_redirect', true, 1, cookie_context)
-		window.location.href = `/index.cfm?method=cart.showCart&productSKU=${encodeURIComponent(query_sku)}&promoCode=${encodeURIComponent(query_adw_promo)}_ship`;
+		window.location.href = `/index.cfm?method=cart.showCart&promoCode=${encodeURIComponent(cookie_context.adw_promo)}_ship`;
     }
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
@@ -82,6 +82,7 @@
 			set_cookie('adw_product', '', -1, cookie_context);
 			set_cookie('adw_promo', '', -1, cookie_context);
 			set_cookie('adw_referer_id', '', -1, cookie_context);
+			set_cookie('ship_redirect', '', -1, cookie_context);
         }
     }
 })();
