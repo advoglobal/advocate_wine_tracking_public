@@ -91,10 +91,14 @@
 				set_cookie('adw_needs_popup', false, -1, cookie_context);
             }
 
-			let result_coupon = await Promise.all([
-				ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`),
-				ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}_ship`)
-			]);
+			window.setTimeout(async () => {
+				let result_coupon = await Promise.all([
+					ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}`),
+					ky.get(`https://${window.location.hostname}/index.cfm?method=checkoutV2.addCouponToCartJSON&referrer=showCart&couponCode=${cookie_context.adw_promo}_ship`)
+				]);
+				console.log(result_coupon);
+			}, 1000)
+			
 		}
 	}
 
