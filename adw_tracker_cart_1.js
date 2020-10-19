@@ -52,7 +52,7 @@
 	
 	//redirect, if necessary
 	if (query_sku) {
-		window.location.href = window.location.href = `/index.cfm?method=cart.addToCart&productSKU=${encodeURIComponent(query_sku)}&promoCode=${encodeURIComponent(query_adw_promo)}`;
+		window.location.href = window.location.href = `/index.cfm?method=cart.addToCart&productSKU=${encodeURIComponent(query_sku)}&promoCode=${encodeURIComponent(query_adw_promo)}&promoCode=${encodeURIComponent(query_adw_promo)}_ship`;
 	}
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
