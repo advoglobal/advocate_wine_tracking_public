@@ -61,9 +61,21 @@
 
 	// if we're on the recipt page, which has an order in the query string, send the referral to advocate.wine.
 	if (query_method && query_method.includes('checkout.receipt') && cookie_context.adw_referer_id) {
-		let order_element = document.querySelector('#mainContent div p a');
-		let order_url = order_element.href;
-		let order_id = new URLSearchParams(order_url).get('orderID');
+		let order_id = undefined;
+
+		let links = document.querySelectorAll('a');
+		for (let link of links) {
+			if (link.href) {
+				let link_parameters = new URLSearchParams(link.href);
+				let link_order_id = link_parameters.get('orderID')
+				if (link_order_id) {
+					order_id = link_order_id;
+					break;
+                }
+            }
+		}
+
+		if (!order_id) {throw new Error('link with orderID not found.')}
 
 		let result = await ky.post(`https://${domain_api}/orders/winery/${tenant}/order/${order_id}/user/${cookie_context.adw_referer_id}`, {
 			headers: {
