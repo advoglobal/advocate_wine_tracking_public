@@ -1,6 +1,6 @@
 (async () => {
 	let this_script = document.getElementById('advocate-tracker');
-	const domain_api = this_script.dataset.is_staging ? 'staging-api.advocate.wine' : 'api.advocate.wine';
+	const domain_api = this_script.dataset.is_staging == 'true' ? 'staging-api.advocate.wine' : 'api.advocate.wine';
 	const tenant = this_script.dataset.advocate_tenant;
 
 	// set up cookie model
