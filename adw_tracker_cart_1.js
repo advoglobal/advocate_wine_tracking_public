@@ -53,7 +53,7 @@
 	
 	//redirect, if necessary
 	if (query_sku) {
-		window.location.href = `/index.cfm?method=cart.addToCart&productSKU=${encodeURIComponent(query_sku)}&promoCode=${encodeURIComponent(query_adw_promo)}`;
+		window.location.href = `/index.cfm?method=cart.addToCart&productSKU=${encodeURIComponent(query_sku)}&promoCode=${encodeURIComponent(query_adw_promo)}&Quantity=3`;
 	} else if (query_method === 'cart.showCart' && cookie_context.adw_promo && !cookie_context.ship_redirect) {
 		set_cookie('ship_redirect', true, 1, cookie_context)
 		window.location.href = `/index.cfm?method=cart.showCart&promoCode=${encodeURIComponent(cookie_context.adw_promo)}_ship`;
