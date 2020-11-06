@@ -66,7 +66,7 @@
 	if (!query_order_id && cookie_context.adw_promo && cookie_context.sku) {
 		const form_data = new FormData();
 		form_data.append('productSKU', cookie_context.sku);
-		form_data.append('Quantity', 1);
+		form_data.append('Quantity', 3);
 
 		if (!cookie_context.adw_processed_cart) {
 			let tries = 0;
